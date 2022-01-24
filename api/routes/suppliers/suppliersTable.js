@@ -1,7 +1,10 @@
 const Model = require('./supplierModelTable');
 
 module.exports = {
-    list(){
+    list() {
         return Model.findAll();
+    },
+    insert(supplier) {
+        return Model.create(supplier);
     }
 }
