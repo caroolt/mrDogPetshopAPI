@@ -4,21 +4,21 @@ const instance = require('../../database');
 const columns = {
     company: {
         type: Sequelize.STRING,
-        allowNull:false
+        allowNull: false
     },
     email: {
         type: Sequelize.STRING,
-        allowNull:false
+        allowNull: false
     },
     category: {
         type: Sequelize.ENUM('feed', 'toys'),
-        allowNull:false
+        allowNull: false
     },
 }
 
 const options = {
     freezeTableName: true,
-    tableName:'suppliers',
+    tableName: 'suppliers',
     timestamps: true,
 }
 
