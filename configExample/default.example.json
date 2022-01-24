@@ -1,0 +1,12 @@
+{
+    "mysql":{
+        "database":"nome da tabela",
+        "user": "nome do usuario",
+        "password": "senha",
+        "host": "127.0.0.1 - localhost",
+        "port": "porta em que o mysql esta rodando"
+    },
+    "api":{
+        "port": "porta que você quer que a API rode"
+    }
+}
