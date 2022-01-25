@@ -10,10 +10,18 @@ router.get('/', async (request, response) => {
 });
 
 router.post('/', async (request, response) => {
-    const receivedData = request.body;
-    const supplier = new Supplier(receivedData);
-    await supplier.create();
-    response.status(201).send(JSON.stringify(supplier));
+    try {
+        const receivedData = request.body;
+        const supplier = new Supplier(receivedData);
+        await supplier.create();
+        response.status(201).send(JSON.stringify(supplier));
+    } catch (erro) {
+        response.send(
+            JSON.stringify({
+                message: erro.message
+            })
+        )
+    }
 });
 
 router.get('/:idSupplier', async (request, response) => {
@@ -31,7 +39,7 @@ router.get('/:idSupplier', async (request, response) => {
             })
         )
     }
-})
+});
 
 router.put('/:idSupplier', async (request, response) => {
     try {
@@ -51,6 +59,23 @@ router.put('/:idSupplier', async (request, response) => {
             })
         )
     }
-})
+});
+
+router.delete('/:idSupplier', async (request, response) => {
+    try {
+        const id = request.params.idSupplier
+        const supplier = new Supplier({ id: id });
+        await supplier.load();
+        await supplier.delete();
+
+        response.end()
+    } catch (erro) {
+        response.send(
+            JSON.stringify({
+                message: erro.message
+            })
+        )
+    }
+});
 
 module.exports = router; 

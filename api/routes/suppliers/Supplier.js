@@ -12,6 +12,8 @@ class Supplier {
     }
 
     async create() {
+        this.validate();
+
         const results = await supplierTable.insert({
             company: this.company,
             email: this.email,
@@ -50,6 +52,22 @@ class Supplier {
         }
 
         await supplierTable.update(this.id, updatedData)
+    }
+
+    async delete() {
+        return supplierTable.delete(this.id);
+    }
+
+    validate() {
+        const fields = ['company', 'email', 'category'];
+
+        fields.forEach(field => {
+            const value = this[field]
+
+            if (typeof value !== 'string' || value.length === 0) {
+                throw new Error(`The field, ${field} is invalid or empty.`)
+            }
+        })
     }
 
 }
