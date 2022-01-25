@@ -69,7 +69,9 @@ router.put('/:idSupplier', async (request, response, middlewareErros) => {
         await supplier.update()
 
         response.status(200)
-        const message = 'User was updated successfully'
+        const message = {
+            'message': 'User was updated successfully'
+        }
 
         const serializer = new SupplierSerializer(
             response.getHeader('Content-Type')
@@ -90,7 +92,9 @@ router.delete('/:idSupplier', async (request, response, middlewareErros) => {
         await supplier.delete();
 
         response.status(200);
-        const message = 'User was deleted successfully'
+        const message = {
+            'message': 'User was deleted successfully'
+        }
 
         const serializer = new SupplierSerializer(
             response.getHeader('Content-Type')
