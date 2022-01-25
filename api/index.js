@@ -9,5 +9,5 @@ const router = require('./routes/suppliers');
 app.use('/api/suppliers', router);
 
 app.listen(config.get('api.port'), () => {
-    console.log('API is connected!');
+    console.log('API is on!');
 })
