@@ -14,13 +14,20 @@ router.post('/', async (request, response) => {
         const receivedData = request.body;
         const supplier = new Supplier(receivedData);
         await supplier.create();
-        response.status(201).send(JSON.stringify(supplier));
+        response
+            .status(201)
+            .send(
+                JSON.stringify(supplier)
+            );
+
     } catch (erro) {
-        response.send(
-            JSON.stringify({
-                message: erro.message
-            })
-        )
+        response
+            .status(400)
+            .send(
+                JSON.stringify({
+                    message: erro.message
+                })
+            )
     }
 });
 
@@ -29,15 +36,19 @@ router.get('/:idSupplier', async (request, response) => {
         const id = request.params.idSupplier
         const supplier = new Supplier({ id: id });
         await supplier.load();
-        response.status(200).send(
-            JSON.stringify(supplier)
-        );
+        response
+            .status(200)
+            .send(
+                JSON.stringify(supplier)
+            );
     } catch (erro) {
-        response.send(
-            JSON.stringify({
-                message: erro.message
-            })
-        )
+        response
+            .status(404)
+            .send(
+                JSON.stringify({
+                    message: erro.message
+                })
+            )
     }
 });
 
@@ -51,17 +62,21 @@ router.put('/:idSupplier', async (request, response) => {
 
         await supplier.update()
 
-        response.status(200).send(
-            JSON.stringify({
-                message: "Usuário atualizado com sucesso"
-            }));
+        response
+            .status(200)
+            .send(
+                JSON.stringify({
+                    message: "User was updated successfully"
+                }));
 
     } catch (erro) {
-        response.send(
-            JSON.stringify({
-                message: erro.message
-            })
-        )
+        response
+            .status(400)
+            .send(
+                JSON.stringify({
+                    message: erro.message
+                })
+            )
     }
 });
 
@@ -72,17 +87,21 @@ router.delete('/:idSupplier', async (request, response) => {
         await supplier.load();
         await supplier.delete();
 
-        response.status(200).send(
-            JSON.stringify({
-                message: "Usuário deletado com sucesso"
-            }));
+        response
+            .status(200)
+            .send(
+                JSON.stringify({
+                    message: "User was deleted successfully"
+                }));
 
     } catch (erro) {
-        response.send(
-            JSON.stringify({
-                message: erro.message
-            })
-        )
+        response
+            .status(404)
+            .send(
+                JSON.stringify({
+                    message: erro.message
+                })
+            )
     }
 });
 
