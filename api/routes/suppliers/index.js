@@ -4,7 +4,7 @@ const Supplier = require('./Supplier');
 
 router.get('/', async (request, response) => {
     const results = await suppliersTable.list()
-    response.send(
+    response.status(200).send(
         JSON.stringify(results)
     )
 });
@@ -29,7 +29,7 @@ router.get('/:idSupplier', async (request, response) => {
         const id = request.params.idSupplier
         const supplier = new Supplier({ id: id });
         await supplier.load();
-        response.send(
+        response.status(200).send(
             JSON.stringify(supplier)
         );
     } catch (erro) {
@@ -51,7 +51,11 @@ router.put('/:idSupplier', async (request, response) => {
 
         await supplier.update()
 
-        response.end()
+        response.status(200).send(
+            JSON.stringify({
+                message: "Usuário atualizado com sucesso"
+            }));
+
     } catch (erro) {
         response.send(
             JSON.stringify({
@@ -68,7 +72,11 @@ router.delete('/:idSupplier', async (request, response) => {
         await supplier.load();
         await supplier.delete();
 
-        response.end()
+        response.status(200).send(
+            JSON.stringify({
+                message: "Usuário deletado com sucesso"
+            }));
+
     } catch (erro) {
         response.send(
             JSON.stringify({
