@@ -1,11 +1,18 @@
 const router = require('express').Router();
 const suppliersTable = require('./suppliersTable');
 const Supplier = require('./Supplier');
+const SupplierSerializer = require('../../Serializer').SupplierSerializer;
 
 router.get('/', async (request, response) => {
     const results = await suppliersTable.list()
-    response.status(200).send(
-        JSON.stringify(results)
+    response.status(200)
+
+    const serializer = new SupplierSerializer(
+        response.getHeader('Content-Type')
+    )
+
+    response.send(
+        serializer.serialize(results)
     )
 });
 
@@ -14,11 +21,16 @@ router.post('/', async (request, response, middlewareErros) => {
         const receivedData = request.body;
         const supplier = new Supplier(receivedData);
         await supplier.create();
-        response
-            .status(201)
-            .send(
-                JSON.stringify(supplier)
-            );
+
+        response.status(201)
+
+        const serializer = new SupplierSerializer(
+            response.getHeader('Content-Type')
+        )
+
+        response.send(
+            serializer.serialize(supplier)
+        );
 
     } catch (erro) {
         middlewareErros(erro);
@@ -32,9 +44,15 @@ router.get('/:idSupplier', async (request, response, middlewareErros) => {
         await supplier.load();
         response
             .status(200)
-            .send(
-                JSON.stringify(supplier)
-            );
+
+        const serializer = new SupplierSerializer(
+            response.getHeader('Content-Type')
+        )
+
+        response.send(
+            serializer.serialize(supplier)
+        );
+
     } catch (erro) {
         middlewareErros(erro);
     }
@@ -50,12 +68,14 @@ router.put('/:idSupplier', async (request, response, middlewareErros) => {
 
         await supplier.update()
 
-        response
-            .status(200)
-            .send(
-                JSON.stringify({
-                    message: "User was updated successfully"
-                }));
+        response.status(200)
+        const message = 'User was updated successfully'
+
+        const serializer = new SupplierSerializer(
+            response.getHeader('Content-Type')
+        );
+
+        response.send(serializer.serialize(message));
 
     } catch (erro) {
         middlewareErros(erro);
@@ -69,12 +89,14 @@ router.delete('/:idSupplier', async (request, response, middlewareErros) => {
         await supplier.load();
         await supplier.delete();
 
-        response
-            .status(200)
-            .send(
-                JSON.stringify({
-                    message: "User was deleted successfully"
-                }));
+        response.status(200);
+        const message = 'User was deleted successfully'
+
+        const serializer = new SupplierSerializer(
+            response.getHeader('Content-Type')
+        );
+
+        response.send(serializer.serialize(message));
 
     } catch (erro) {
         middlewareErros(erro);
