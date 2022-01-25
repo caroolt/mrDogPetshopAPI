@@ -48,10 +48,6 @@ class Supplier {
             if (typeof value === 'string' && value.length > 0) {
                 updatedData[field] = value
             }
-
-            if (typeof value !== 'string') {
-                throw new InvalidField(field)
-            }
         })
 
         if (Object.keys(updatedData).length === 0) {
@@ -64,6 +60,7 @@ class Supplier {
     async delete() {
         return supplierTable.delete(this.id);
     }
+
 
     validate() {
         const fields = ['company', 'email', 'category'];
