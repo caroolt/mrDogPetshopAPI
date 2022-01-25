@@ -4,9 +4,11 @@ module.exports = {
     list() {
         return Model.findAll();
     },
+
     insert(supplier) {
         return Model.create(supplier);
     },
+
     async getById(id) {
         const found = await Model.findOne({
             where: {
@@ -19,5 +21,22 @@ module.exports = {
         }
 
         return found
+    },
+
+    async update(id, updatedData) {
+        return Model.update(
+            updatedData,
+            {
+                where: { id: id }
+            }
+        )
+    },
+
+    delete(id) {
+        return Model.destroy({
+            where: {
+                id: id
+            }
+        })
     }
 }
