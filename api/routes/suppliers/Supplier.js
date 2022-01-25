@@ -1,5 +1,7 @@
+const EmptyField = require('../../errors/EmptyField')
+const InvalidField = require('../../errors/InvalidField')
+const NoDataWasSent = require('../../errors/NoDataWasSent')
 const supplierTable = require('./suppliersTable')
-
 
 class Supplier {
     constructor({ id, company, email, category, createdAt, updatedAt }) {
@@ -39,16 +41,21 @@ class Supplier {
         const fields = ['company', 'email', 'category']
         const updatedData = {}
 
+
         fields.forEach(field => {
             const value = this[field]
 
             if (typeof value === 'string' && value.length > 0) {
                 updatedData[field] = value
             }
+
+            if (typeof value !== 'string') {
+                throw new InvalidField(field)
+            }
         })
 
         if (Object.keys(updatedData).length === 0) {
-            throw new Error('No data was provided to update...')
+            throw new NoDataWasSent();
         }
 
         await supplierTable.update(this.id, updatedData)
@@ -63,9 +70,11 @@ class Supplier {
 
         fields.forEach(field => {
             const value = this[field]
-
-            if (typeof value !== 'string' || value.length === 0) {
-                throw new Error(`The field, ${field} is invalid or empty.`)
+            if (typeof value !== 'string') {
+                throw new InvalidField(field)
+            }
+            if (value.length === 0) {
+                throw new EmptyField(field)
             }
         })
     }

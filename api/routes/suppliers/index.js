@@ -9,7 +9,7 @@ router.get('/', async (request, response) => {
     )
 });
 
-router.post('/', async (request, response) => {
+router.post('/', async (request, response, middlewareErros) => {
     try {
         const receivedData = request.body;
         const supplier = new Supplier(receivedData);
@@ -21,17 +21,11 @@ router.post('/', async (request, response) => {
             );
 
     } catch (erro) {
-        response
-            .status(400)
-            .send(
-                JSON.stringify({
-                    message: erro.message
-                })
-            )
+        middlewareErros(erro);
     }
 });
 
-router.get('/:idSupplier', async (request, response) => {
+router.get('/:idSupplier', async (request, response, middlewareErros) => {
     try {
         const id = request.params.idSupplier
         const supplier = new Supplier({ id: id });
@@ -42,17 +36,11 @@ router.get('/:idSupplier', async (request, response) => {
                 JSON.stringify(supplier)
             );
     } catch (erro) {
-        response
-            .status(404)
-            .send(
-                JSON.stringify({
-                    message: erro.message
-                })
-            )
+        middlewareErros(erro);
     }
 });
 
-router.put('/:idSupplier', async (request, response) => {
+router.put('/:idSupplier', async (request, response, middlewareErros) => {
     try {
         const id = request.params.idSupplier
         const dadosRecebidos = request.body
@@ -70,17 +58,11 @@ router.put('/:idSupplier', async (request, response) => {
                 }));
 
     } catch (erro) {
-        response
-            .status(400)
-            .send(
-                JSON.stringify({
-                    message: erro.message
-                })
-            )
+        middlewareErros(erro);
     }
 });
 
-router.delete('/:idSupplier', async (request, response) => {
+router.delete('/:idSupplier', async (request, response, middlewareErros) => {
     try {
         const id = request.params.idSupplier
         const supplier = new Supplier({ id: id });
@@ -95,13 +77,7 @@ router.delete('/:idSupplier', async (request, response) => {
                 }));
 
     } catch (erro) {
-        response
-            .status(404)
-            .send(
-                JSON.stringify({
-                    message: erro.message
-                })
-            )
+        middlewareErros(erro);
     }
 });
 
