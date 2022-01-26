@@ -40,7 +40,7 @@ class Serializer {
 }
 
 class SupplierSerializer extends Serializer {
-    constructor(contentType) {
+    constructor(contentType, extraFields) {
         super();
         this.contentType = contentType;
         this.publicFields = [
@@ -48,7 +48,17 @@ class SupplierSerializer extends Serializer {
             'company',
             'category',
             'message'
-        ]
+        ].concat(extraFields || [])
+    }
+}
+class ErrorsSerializer extends Serializer {
+    constructor(contentType, extraFields) {
+        super();
+        this.contentType = contentType;
+        this.publicFields = [
+            'id',
+            'message',
+        ].concat(extraFields || [])
     }
 }
 
@@ -56,5 +66,6 @@ class SupplierSerializer extends Serializer {
 module.exports = {
     Serializer: Serializer,
     SupplierSerializer: SupplierSerializer,
+    ErrorsSerializer: ErrorsSerializer,
     acceptedFormats: ['application/json']
 };

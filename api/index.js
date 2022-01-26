@@ -29,7 +29,7 @@ const InvalidField = require('./errors/InvalidField');
 const NoDataWasSent = require('./errors/NoDataWasSent');
 const EmptyField = require('./errors/EmptyField');
 const ContentTypeNotSupported = require('./errors/ContentTypeNotSupported');
-const { acceptedFormats } = require('./Serializer');
+const { acceptedFormats, ErrorsSerializer } = require('./Serializer');
 
 app.use('/api/suppliers', router);
 
@@ -51,9 +51,11 @@ app.use((erro, request, response, middlewareErros) => {
     if (erro instanceof ContentTypeNotSupported) {
         status = 406;
     }
-
+    const serializer = new ErrorsSerializer(
+        response.getHeader('Content-Type')
+    )
     response.status(status).send(
-        JSON.stringify({
+        serializer.serialize({
             message: erro.message,
             id: erro.idError
         })
