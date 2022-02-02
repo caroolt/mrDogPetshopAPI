@@ -108,4 +108,8 @@ router.delete('/:idSupplier', async (request, response, middlewareErros) => {
     }
 });
 
+const routerProducts = require('./products');
+
+router.use('/:idSupplier/products', routerProducts);
+
 module.exports = router; 
